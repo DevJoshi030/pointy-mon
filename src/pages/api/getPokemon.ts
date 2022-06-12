@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PokemonClient } from "pokenode-ts";
 
 export type Data = {
+  firstId: number;
+  secondId: number;
   firstPokeName: string;
   secondPokeName: string;
-  firstImgLink: string;
-  secondImgLink: string;
 };
 
 export default async function handler(
@@ -15,20 +15,15 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   console.log(req);
-  const [first, second] = generateRandomIds();
-  console.log(first, second);
+  const [firstId, secondId] = generateRandomIds();
+  console.log(firstId, secondId);
   const api = new PokemonClient();
 
-  const firstPoke = await api.getPokemonById(first);
-  const secondPoke = await api.getPokemonById(second);
+  const firstPoke = await api.getPokemonById(firstId);
+  const secondPoke = await api.getPokemonById(secondId);
 
-  const firstImgLink = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${first}.png`;
-  const secondImgLink = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${second}.png`;
-
-  console.log(firstPoke.name, secondPoke.name, firstImgLink, secondImgLink);
+  console.log(firstPoke.name, secondPoke.name);
   const firstPokeName = firstPoke.name;
   const secondPokeName = secondPoke.name;
-  res
-    .status(200)
-    .json({ firstPokeName, secondPokeName, firstImgLink, secondImgLink });
+  res.status(200).json({ firstId, secondId, firstPokeName, secondPokeName });
 }
