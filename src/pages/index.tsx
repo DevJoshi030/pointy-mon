@@ -4,7 +4,7 @@ import type { Data } from "@/pages/api/getPokemon";
 import { getImageLink } from "@/utils/getImageLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:3000/api/getPokemon");
+  const res = await fetch("https://pointy-mon.vercel.app/api/getPokemon");
   const data: Data = await res.json();
   return {
     props: {
